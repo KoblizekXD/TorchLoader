@@ -11,5 +11,5 @@ class ModProject {
     lateinit var mappings: String
 
     fun isMinecraftInitialized(): Boolean = ::minecraft.isInitialized
-    fun areMappingsInitialized(): Boolean = ::minecraft.isInitialized
+    fun areMappingsInitialized(): Boolean = ::mappings.isInitialized
 }
