@@ -11,3 +11,9 @@ class TorchLoaderPlugin : Plugin<Project> {
 
     }
 }
+
+fun minecraft(notation: ModProject.() -> Unit) {
+    val proj = ModProject()
+    notation(proj)
+    ModProject.modProjectInstance = proj
+}
