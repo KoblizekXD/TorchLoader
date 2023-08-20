@@ -10,6 +10,9 @@ import org.gradle.api.logging.Logger
 class TorchLoaderPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         logger = project.logger
+        project.afterEvaluate {
+
+        }
     }
 
     companion object {
