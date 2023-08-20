@@ -10,12 +10,12 @@ import java.net.URL
  * @param tempFile directory, where will be the file stored
  * @param name name of the file
  */
-class Download(url: String, tempFile: File, name: String) {
+class Download(url: String, name: String) {
     private val file: File
 
     init {
         val uri = URL(url)
-        file = File(tempFile, name)
+        file = File(File(System.getProperty("java.io.tmpdir")), name)
         uri.openStream().use { input ->
             file.outputStream().use { output ->
                 input.copyTo(output)

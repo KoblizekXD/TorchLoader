@@ -1,5 +1,6 @@
 package lol.koblizek.torch.plugin.tasks
 
+import lol.koblizek.torch.plugin.ModProject
 import org.gradle.api.Project
 
 abstract class EvaluatedTask {
@@ -8,8 +9,8 @@ abstract class EvaluatedTask {
 
     fun execute(project: Project) {
         println("task :$name")
-        onEvaluation(project)
+        onEvaluation(ModProject.modProjectInstance, project)
     }
 
-    abstract fun onEvaluation(project: Project)
+    abstract fun onEvaluation(modProject: ModProject, project: Project)
 }
