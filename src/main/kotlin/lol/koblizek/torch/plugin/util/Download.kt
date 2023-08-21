@@ -7,7 +7,6 @@ import java.net.URL
  * Downloads file from desired URL
  *
  * @param url download URL
- * @param tempFile directory, where will be the file stored
  * @param name name of the file
  */
 class Download(url: String, name: String) {
