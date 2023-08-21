@@ -21,4 +21,9 @@ class Download(url: String, name: String) {
             }
         }
     }
+    companion object {
+        fun getFile(name: String): File {
+            return File(File(System.getProperty("java.io.tmpdir")), name)
+        }
+    }
 }
