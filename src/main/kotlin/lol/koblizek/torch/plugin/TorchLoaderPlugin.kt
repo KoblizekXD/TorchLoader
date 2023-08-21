@@ -14,9 +14,18 @@ class TorchLoaderPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         logger = project.logger
         project.afterEvaluate {
-            DownloadManifest().execute(project)
-            DownloadJsonTask().execute(project)
-            DownloadMinecraftTask(project).execute(project)
+            if (ModProject.isModProjectInitialized()) {
+                if (ModProject.modProjectInstance.isMinecraftInitialized()
+                    && ModProject.modProjectInstance.areMappingsInitialized()) {
+                    DownloadManifest().execute(project)
+                    DownloadJsonTask().execute(project)
+                    DownloadMinecraftTask(project).execute(project)
+                } else {
+                    logger.error("Minecraft not setup - minecraft or mappings not initialized!")
+                }
+            } else {
+                logger.error("Minecraft not setup - nothing to download!")
+            }
         }
     }
 
