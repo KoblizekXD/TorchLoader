@@ -9,9 +9,13 @@ version = "1.0"
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://maven.fabricmc.net/")
+    }
 }
 
 dependencies {
+    implementation("cuchaz:enigma:2.3.1")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("org.apache.commons:commons-lang3:3.13.0")
     implementation(gradleApi())
