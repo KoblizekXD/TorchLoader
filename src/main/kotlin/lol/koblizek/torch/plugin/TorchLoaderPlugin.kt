@@ -9,6 +9,17 @@ import org.gradle.api.logging.Logger
 
 /**
  * Main plugin entrypoint
+ *
+ * Standard mod development procedure:
+ * - Downloads libraries, minecraft jar and minecraft json file
+ * - Deobfuscates Minecraft Jar using Enigma
+ * - If used for Minecraft Development:
+ *     - Decompiles Minecraft to project source directory
+ *     - Notes for future development:
+ *        - Task `genPatch` for normal patch generation(folder `root/patches`)
+ * - If used for Mod development:
+ *     - Downloads latest binary patch
+ *     - Applies patch to Minecraft's jar and adds it to dependencies
  */
 class TorchLoaderPlugin : Plugin<Project> {
     override fun apply(project: Project) {
