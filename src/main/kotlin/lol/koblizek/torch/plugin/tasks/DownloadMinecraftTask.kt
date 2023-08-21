@@ -36,7 +36,7 @@ class DownloadMinecraftTask(val project: Project) : EvaluatedTask() {
             .getAsJsonPrimitive("name").asString
         return if (SystemUtils.IS_OS_WINDOWS && name == "windows") {
             true
-        } else if (SystemUtils.IS_OS_MAC_OSX && name == "windows") {
+        } else if (SystemUtils.IS_OS_MAC_OSX && name == "osx") {
             true
         } else if (SystemUtils.IS_OS_LINUX && name == "linux") {
             true
