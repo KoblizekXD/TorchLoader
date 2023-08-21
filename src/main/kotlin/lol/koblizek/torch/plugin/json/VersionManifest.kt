@@ -21,4 +21,8 @@ class VersionManifest(latest: Latest, versions: Array<Version>) {
     fun getVersions(): Array<Version> {
         return this.versions
     }
+
+    fun findByVersion(id: String): Version? {
+        return versions.find { version -> version.id == id }
+    }
 }
