@@ -10,7 +10,7 @@ import java.net.URL
  * @param name name of the file
  */
 class Download(url: String, name: String) {
-    private val file: File
+    internal val file: File
 
     init {
         val uri = URL(url)

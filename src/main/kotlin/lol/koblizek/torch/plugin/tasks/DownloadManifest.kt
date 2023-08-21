@@ -9,7 +9,7 @@ class DownloadManifest : EvaluatedTask() {
 
     override fun onEvaluation(modProject: ModProject, project: Project) {
         println("Download version manifest...")
-        Download("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json", "minecraft-data.json")
+        val file = Download("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json", "minecraft-data.json").file
         println("Done")
     }
 }
