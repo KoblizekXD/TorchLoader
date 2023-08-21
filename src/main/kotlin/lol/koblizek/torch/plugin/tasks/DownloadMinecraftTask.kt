@@ -30,7 +30,7 @@ class DownloadMinecraftTask(val project: Project) : EvaluatedTask() {
         }
     }
     private fun shouldDownload(library: JsonObject): Boolean {
-        if (library.getAsJsonArray("rules")[0] == null) return true
+        if (library.getAsJsonArray("rules") == null) return true
         val name = library.getAsJsonArray("rules")[0]
             .asJsonObject.getAsJsonObject("os")
             .getAsJsonPrimitive("name").asString

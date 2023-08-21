@@ -14,6 +14,9 @@ class TorchLoaderPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         logger = project.logger
         project.afterEvaluate {
+            project.repositories.add(project.repositories.maven {
+                it.url = project.uri("https://libraries.minecraft.net")
+            })
             if (ModProject.isModProjectInitialized()) {
                 if (ModProject.modProjectInstance.isMinecraftInitialized()
                     && ModProject.modProjectInstance.areMappingsInitialized()) {
