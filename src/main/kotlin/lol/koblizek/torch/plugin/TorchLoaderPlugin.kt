@@ -1,7 +1,8 @@
 package lol.koblizek.torch.plugin
 
 import lol.koblizek.torch.plugin.tasks.DownloadJsonTask
-import lol.koblizek.torch.plugin.tasks.DownloadManifest
+import lol.koblizek.torch.plugin.tasks.DownloadManifestTask
+import lol.koblizek.torch.plugin.tasks.DownloadMappingsTask
 import lol.koblizek.torch.plugin.tasks.DownloadMinecraftTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -31,9 +32,10 @@ class TorchLoaderPlugin : Plugin<Project> {
             if (ModProject.isModProjectInitialized()) {
                 if (ModProject.modProjectInstance.isMinecraftInitialized()
                     && ModProject.modProjectInstance.areMappingsInitialized()) {
-                    DownloadManifest().execute(project)
+                    DownloadManifestTask().execute(project)
                     DownloadJsonTask().execute(project)
                     DownloadMinecraftTask(project).execute(project)
+                    DownloadMappingsTask().execute(project)
                 } else {
                     logger.error("Minecraft not setup - minecraft or mappings not initialized!")
                 }

@@ -15,7 +15,8 @@ repositories {
 }
 
 dependencies {
-    implementation("cuchaz:enigma:2.3.1")
+    api("cuchaz:enigma:2.3.1")
+    implementation("commons-io:commons-io:2.13.0")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("org.apache.commons:commons-lang3:3.13.0")
     implementation(gradleApi())
@@ -27,7 +28,7 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(17)
 }
 gradlePlugin {
     plugins {
