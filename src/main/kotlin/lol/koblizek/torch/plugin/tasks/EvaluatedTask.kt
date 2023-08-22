@@ -8,8 +8,9 @@ abstract class EvaluatedTask {
 
 
     fun execute(project: Project) {
-        println("task :$name")
+        println("===[Task] Task execution for :$name started===")
         onEvaluation(ModProject.modProjectInstance, project)
+        println("===[Task] Task execution for :$name ended===")
     }
 
     abstract fun onEvaluation(modProject: ModProject, project: Project)

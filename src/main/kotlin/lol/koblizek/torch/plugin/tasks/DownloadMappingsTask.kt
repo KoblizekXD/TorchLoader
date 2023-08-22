@@ -14,7 +14,6 @@ import lol.koblizek.torch.plugin.ModProject
 import lol.koblizek.torch.plugin.util.Download
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
-import org.gradle.internal.impldep.org.apache.ivy.util.Message.progress
 import java.io.File
 import java.io.InputStreamReader
 import java.net.URL
@@ -52,7 +51,6 @@ class DownloadMappingsTask : EvaluatedTask() {
     private fun setMappings(project: EnigmaProject, mappings: File) {
         val saveParameters: MappingSaveParameters = project.enigma.profile.mappingSaveParameters
         val entries: EntryTree<EntryMapping> = MappingFormat.TINY_V2.read(mappings.toPath(), ProgressListener.none(), saveParameters)
-
         project.setMappings(entries)
     }
 }
