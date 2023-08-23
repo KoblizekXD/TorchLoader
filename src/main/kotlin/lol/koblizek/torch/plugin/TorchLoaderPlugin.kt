@@ -13,7 +13,7 @@ import org.gradle.api.logging.Logger
  *
  * Standard mod development procedure:
  * - Downloads libraries, minecraft jar and minecraft json file
- * - Deobfuscates Minecraft Jar using Enigma
+ * - Deobfuscates Minecraft Jar using Tiny Remapper
  * - If used for Minecraft Development:
  *     - Decompiles Minecraft to project source directory
  *     - Notes for future development:
