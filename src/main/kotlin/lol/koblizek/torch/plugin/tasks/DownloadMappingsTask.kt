@@ -2,14 +2,6 @@ package lol.koblizek.torch.plugin.tasks
 
 import com.google.gson.Gson
 import com.google.gson.JsonArray
-import cuchaz.enigma.Enigma
-import cuchaz.enigma.EnigmaProject
-import cuchaz.enigma.ProgressListener
-import cuchaz.enigma.classprovider.ClasspathClassProvider
-import cuchaz.enigma.translation.mapping.EntryMapping
-import cuchaz.enigma.translation.mapping.serde.MappingFormat
-import cuchaz.enigma.translation.mapping.serde.MappingSaveParameters
-import cuchaz.enigma.translation.mapping.tree.EntryTree
 import lol.koblizek.torch.plugin.ModProject
 import lol.koblizek.torch.plugin.util.Download
 import net.fabricmc.mappingio.MappingReader
@@ -44,17 +36,6 @@ class DownloadMappingsTask : EvaluatedTask() {
             deobfuscate(Download.getFile("minecraft.jar"), File(System.getProperty("java.io.tmpdir"), "minecraft-deobf.jar"), file)
         }
     }
-    @Deprecated("Deprecated as of Fabric's Enigma deprecation, use parseMappings instead(mappings-io api)")
-    private fun deobfuscate(jar: File, mappings: File) {
-        println("[Enigma] Begin deobfuscation work...")
-        val enigma = Enigma.create()
-        val listener = ProgressListener.none()
-        val project = enigma.openJar(jar.toPath(), ClasspathClassProvider(), listener)
-        setMappings(project, mappings)
-        val export = project.exportRemappedJar(listener)
-        export.write(File(System.getProperty("java.io.tmpdir"), "minecraft-deobf.jar").toPath(), listener)
-        println("[Enigma] Done")
-    }
     private fun deobfuscate(inputJar: File, outputPath: File, mappings: File) {
         val writer = StringWriter()
         MappingWriter.create(writer, net.fabricmc.mappingio.format.MappingFormat.TINY_2).use { mapper ->
@@ -84,10 +65,5 @@ class DownloadMappingsTask : EvaluatedTask() {
         } finally {
             remapper.finish()
         }
-    }
-    private fun setMappings(project: EnigmaProject, mappings: File) {
-        val saveParameters: MappingSaveParameters = project.enigma.profile.mappingSaveParameters
-        val entries: EntryTree<EntryMapping> = MappingFormat.TINY_V2.read(mappings.toPath(), ProgressListener.none(), saveParameters)
-        project.setMappings(entries)
     }
 }
