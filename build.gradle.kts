@@ -15,6 +15,7 @@ repositories {
 }
 
 dependencies {
+    implementation("org.vineflower:vineflower:1.9.2")
     implementation("net.fabricmc:tiny-remapper:0.8.7")
     implementation("net.fabricmc:mapping-io:0.4.2")
     implementation("commons-io:commons-io:2.13.0")

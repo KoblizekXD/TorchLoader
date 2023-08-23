@@ -14,7 +14,7 @@ class DownloadMinecraftTask(val project: Project) : EvaluatedTask() {
     override fun onEvaluation(modProject: ModProject, project: Project) {
         val file = Download.getFile("minecraft-data.json")
         val json = Gson().fromJson(file.readText(), JsonObject::class.java)
-        if (Download.getFile("minecraft.jar").exists()) {
+        if (!Download.getFile("minecraft.jar").exists()) {
             val clientUrl = json.getAsJsonObject("downloads")
                 .getAsJsonObject("client")
                 .getAsJsonPrimitive("url").asString
