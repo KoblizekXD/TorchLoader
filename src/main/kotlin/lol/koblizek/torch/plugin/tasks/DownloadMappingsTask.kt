@@ -31,9 +31,18 @@ class DownloadMappingsTask : EvaluatedTask() {
             val finalUrl = "https://maven.fabricmc.net/net/fabricmc/yarn/$version/yarn-$version-mergedv2.jar"
             val mappingFile = Download(finalUrl, "mapjar.jar").file
             val zipFile = ZipFile(mappingFile)
-            val file = File(System.getProperty("java.io.tmpdir"), "mappings.tiny")
-            FileUtils.copyInputStreamToFile(zipFile.getInputStream(zipFile.getEntry("mappings/mappings.tiny")), file)
-            deobfuscate(Download.getFile("minecraft.jar"), File(System.getProperty("java.io.tmpdir"), "minecraft-deobf.jar"), file)
+            if (!Download.getFile("mappings.tiny").exists()) {
+                val file = File(System.getProperty("java.io.tmpdir"), "mappings.tiny")
+                FileUtils.copyInputStreamToFile(
+                    zipFile.getInputStream(zipFile.getEntry("mappings/mappings.tiny")),
+                    file
+                )
+                deobfuscate(
+                    Download.getFile("minecraft.jar"),
+                    File(System.getProperty("java.io.tmpdir"), "minecraft-deobf.jar"),
+                    file
+                )
+            }
         }
     }
     private fun deobfuscate(inputJar: File, outputPath: File, mappings: File) {

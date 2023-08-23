@@ -12,9 +12,10 @@ class DownloadJsonTask : EvaluatedTask() {
     override fun onEvaluation(modProject: ModProject, project: Project) {
         val manifest = Gson().fromJson(Download.getFile("version-data.json").readText(), VersionManifest::class.java)
         if (manifest.findByVersion(modProject.minecraft) == null) throw RuntimeException()
-
-        println("Downloading Minecraft source JSON")
-        Download(manifest.findByVersion(modProject.minecraft)!!.url, "minecraft-data.json")
-        println("Finished source JSON download")
+        if (!Download.getFile("minecraft-data.json").exists()) {
+            println("Downloading Minecraft source JSON")
+            Download(manifest.findByVersion(modProject.minecraft)!!.url, "minecraft-data.json")
+            println("Finished source JSON download")
+        }
     }
 }

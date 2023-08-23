@@ -9,7 +9,9 @@ class DownloadManifestTask : EvaluatedTask() {
 
     override fun onEvaluation(modProject: ModProject, project: Project) {
         println("Download version manifest...")
-        Download("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json", "version-data.json")
+        if (!Download.getFile("version-data.json").exists()) {
+            Download("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json", "version-data.json")
+        }
         println("Done")
     }
 }

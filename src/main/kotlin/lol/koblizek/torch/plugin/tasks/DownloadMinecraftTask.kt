@@ -14,10 +14,12 @@ class DownloadMinecraftTask(val project: Project) : EvaluatedTask() {
     override fun onEvaluation(modProject: ModProject, project: Project) {
         val file = Download.getFile("minecraft-data.json")
         val json = Gson().fromJson(file.readText(), JsonObject::class.java)
-        val clientUrl = json.getAsJsonObject("downloads")
-            .getAsJsonObject("client")
-            .getAsJsonPrimitive("url").asString
-        Download(clientUrl, "minecraft.jar")
+        if (Download.getFile("minecraft.jar").exists()) {
+            val clientUrl = json.getAsJsonObject("downloads")
+                .getAsJsonObject("client")
+                .getAsJsonPrimitive("url").asString
+            Download(clientUrl, "minecraft.jar")
+        }
         json.getAsJsonArray("libraries").forEach {
             val library = it.asJsonObject.getAsJsonPrimitive("name").asString
             if (shouldDownload(it.asJsonObject)) {
