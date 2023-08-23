@@ -41,9 +41,7 @@ class DownloadMappingsTask : EvaluatedTask() {
             val zipFile = ZipFile(mappingFile)
             val file = File(System.getProperty("java.io.tmpdir"), "mappings.tiny")
             FileUtils.copyInputStreamToFile(zipFile.getInputStream(zipFile.getEntry("mappings/mappings.tiny")), file)
-            //deobfuscate(Download.getFile("minecraft.jar"), file)
             deobfuscate(Download.getFile("minecraft.jar"), File(System.getProperty("java.io.tmpdir"), "minecraft-deobf.jar"), file)
-            //println("Work done, deobf minecraft in: ${File(System.getProperty("java.io.tmpdir"), "minecraft-deobf.jar").absolutePath}")
         }
     }
     @Deprecated("Deprecated as of Fabric's Enigma deprecation, use parseMappings instead(mappings-io api)")
