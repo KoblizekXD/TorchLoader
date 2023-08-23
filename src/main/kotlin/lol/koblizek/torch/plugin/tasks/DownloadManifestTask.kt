@@ -4,7 +4,7 @@ import lol.koblizek.torch.plugin.ModProject
 import lol.koblizek.torch.plugin.util.Download
 import org.gradle.api.Project
 
-class DownloadManifest : EvaluatedTask() {
+class DownloadManifestTask : EvaluatedTask() {
     override val name: String = "downloadAssetIndex"
 
     override fun onEvaluation(modProject: ModProject, project: Project) {

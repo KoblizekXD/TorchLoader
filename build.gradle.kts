@@ -15,7 +15,9 @@ repositories {
 }
 
 dependencies {
-    implementation("cuchaz:enigma:2.3.1")
+    implementation("net.fabricmc:tiny-remapper:0.8.7")
+    implementation("net.fabricmc:mapping-io:0.4.2")
+    implementation("commons-io:commons-io:2.13.0")
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("org.apache.commons:commons-lang3:3.13.0")
     implementation(gradleApi())
@@ -27,7 +29,7 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(17)
 }
 gradlePlugin {
     plugins {
