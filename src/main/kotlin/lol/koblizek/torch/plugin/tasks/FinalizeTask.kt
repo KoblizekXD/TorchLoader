@@ -28,6 +28,8 @@ class FinalizeTask : EvaluatedTask() {
                 Logger()
             )
             fernFlower.addSource(Download.getFile("minecraft-deobf.jar"))
+            fernFlower.addWhitelist("net.minecraft")
+            fernFlower.addWhitelist("com.mojang")
             fernFlower.decompileContext()
         }
     }
