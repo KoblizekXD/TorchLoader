@@ -17,23 +17,27 @@ class FinalizeTask : EvaluatedTask() {
 
     override fun onEvaluation(modProject: ModProject, project: Project) {
         if (modProject.minecraftDevelopment.decompile) {
-            val props: MutableMap<String, Any> = HashMap(IFernflowerPreferences.DEFAULTS)
-            props[IFernflowerPreferences.DECOMPILE_GENERIC_SIGNATURES] = "1"
-            props[IFernflowerPreferences.REMOVE_SYNTHETIC] = "1"
-            props[IFernflowerPreferences.INCLUDE_ENTIRE_CLASSPATH] = "1"
-            props[IFernflowerPreferences.PATTERN_MATCHING] = "1"
-            props[IFernflowerPreferences.TERNARY_CONDITIONS] = "1"
-            props[IFernflowerPreferences.THREADS] = (Runtime.getRuntime().availableProcessors() / 2).toString()
-            val fernFlower = Fernflower(
-                DirectoryResultSaver(project.file("src/main/java/")),
-                props,
-                Logger()
-            )
-            fernFlower.addSource(Download.getFile("minecraft-deobf.jar"))
-            fernFlower.addWhitelist("net.minecraft")
-            fernFlower.addWhitelist("com.mojang")
-            fernFlower.decompileContext()
-            copyFromZipToResources(Download.getFile("minecraft-deobf.jar"), project)
+            if (!project.file("src/main/resources/assets/").exists()) {
+                val props: MutableMap<String, Any> = HashMap(IFernflowerPreferences.DEFAULTS)
+                props[IFernflowerPreferences.DECOMPILE_GENERIC_SIGNATURES] = "1"
+                props[IFernflowerPreferences.REMOVE_SYNTHETIC] = "1"
+                props[IFernflowerPreferences.INCLUDE_ENTIRE_CLASSPATH] = "1"
+                props[IFernflowerPreferences.PATTERN_MATCHING] = "1"
+                props[IFernflowerPreferences.TERNARY_CONDITIONS] = "1"
+                props[IFernflowerPreferences.THREADS] = (Runtime.getRuntime().availableProcessors() / 2).toString()
+                val fernFlower = Fernflower(
+                    DirectoryResultSaver(project.file("src/main/java/")),
+                    props,
+                    Logger()
+                )
+                fernFlower.addSource(Download.getFile("minecraft-deobf.jar"))
+                fernFlower.addWhitelist("net.minecraft")
+                fernFlower.addWhitelist("com.mojang")
+                fernFlower.decompileContext()
+                copyFromZipToResources(Download.getFile("minecraft-deobf.jar"), project)
+            } else {
+                logger.quiet("Minecraft resource are not missing, no need to redownload")
+            }
         } else {
             // TODO: Apply binary patches
             project.dependencies.add("implementation", Download.getFile("minecraft-deobf.jar"))
