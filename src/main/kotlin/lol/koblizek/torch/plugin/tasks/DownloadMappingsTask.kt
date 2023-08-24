@@ -17,6 +17,7 @@ import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
 import java.io.*
 import java.net.URL
+import java.util.regex.Pattern
 import java.util.zip.ZipFile
 
 
@@ -60,7 +61,8 @@ class DownloadMappingsTask : EvaluatedTask() {
                 )
             )
         }
-        val remapper = TinyRemapper.newRemapper()
+        val remapper = TinyRemapper.newRemapper().invalidLvNamePattern(Pattern.compile("\\$\\$\\d+"))
+            .inferNameFromSameLvIndex(true)
             .withMappings(
                 TinyUtils.createTinyMappingProvider(
                     BufferedReader(StringReader(writer.toString())),
