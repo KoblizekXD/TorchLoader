@@ -14,7 +14,7 @@ class ModProject {
     fun development(development: MinecraftDevelopment.() -> Unit) {
         minecraftDevelopment = MinecraftDevelopment().also { development(it) }
     }
-
+    fun isMinecraftDevelopmentInitialized(): Boolean = ::minecraftDevelopment.isInitialized
     private fun isMinecraftInitialized(): Boolean = ::minecraft.isInitialized
     private fun areMappingsInitialized(): Boolean = ::mappings.isInitialized
     fun fieldsInitialized(): Boolean = isMinecraftInitialized() && areMappingsInitialized()

@@ -16,7 +16,7 @@ class FinalizeTask : EvaluatedTask() {
     override val name: String = "finalizeGameSetup"
 
     override fun onEvaluation(modProject: ModProject, project: Project) {
-        if (modProject.minecraftDevelopment.decompile) {
+        if (modProject.isMinecraftDevelopmentInitialized() && modProject.minecraftDevelopment.decompile) {
             if (!project.file("src/main/resources/assets/").exists()) {
                 val props: MutableMap<String, Any> = HashMap(IFernflowerPreferences.DEFAULTS)
                 props[IFernflowerPreferences.DECOMPILE_GENERIC_SIGNATURES] = "1"
@@ -31,8 +31,8 @@ class FinalizeTask : EvaluatedTask() {
                     Logger()
                 )
                 fernFlower.addSource(Download.getFile("minecraft-deobf.jar"))
-                fernFlower.addWhitelist("net.minecraft")
-                fernFlower.addWhitelist("com.mojang")
+                fernFlower.addWhitelist("net/minecraft")
+                fernFlower.addWhitelist("com/mojang")
                 fernFlower.decompileContext()
                 copyFromZipToResources(Download.getFile("minecraft-deobf.jar"), project)
             } else {
