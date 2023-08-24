@@ -8,10 +8,12 @@ class DownloadManifestTask : EvaluatedTask() {
     override val name: String = "downloadAssetIndex"
 
     override fun onEvaluation(modProject: ModProject, project: Project) {
-        println("Download version manifest...")
         if (!Download.getFile("version-data.json").exists()) {
+            logger.quiet("Download version manifest...")
             Download("https://piston-meta.mojang.com/mc/game/version_manifest_v2.json", "version-data.json")
+            logger.quiet("Done")
+        } else {
+            logger.quiet("Skipped")
         }
-        println("Done")
     }
 }

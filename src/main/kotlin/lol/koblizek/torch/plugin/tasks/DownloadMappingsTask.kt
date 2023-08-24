@@ -76,7 +76,7 @@ class DownloadMappingsTask : EvaluatedTask() {
                 remapper.apply(outputConsumer)
             }
         } catch (e: IOException) {
-            println("Error occurred but was ignored")
+            logger.error("Error occurred but was ignored")
         } finally {
             remapper.finish()
         }
