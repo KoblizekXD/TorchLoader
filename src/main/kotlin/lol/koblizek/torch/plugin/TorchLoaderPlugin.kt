@@ -3,8 +3,8 @@ package lol.koblizek.torch.plugin
 import lol.koblizek.torch.plugin.tasks.*
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 import org.gradle.api.logging.Logger
-import org.gradle.model.Finalize
 
 /**
  * Main plugin entrypoint
@@ -24,23 +24,23 @@ class TorchLoaderPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         logger = project.logger
         project.afterEvaluate {
-            project.repositories.add(project.repositories.maven {
-                it.url = project.uri("https://libraries.minecraft.net")
-            })
-            if (ModProject.isModProjectInitialized()) {
-                if (ModProject.modProjectInstance.isMinecraftInitialized()
-                    && ModProject.modProjectInstance.areMappingsInitialized()) {
-                    DownloadManifestTask().execute(project)
-                    DownloadJsonTask().execute(project)
-                    DownloadMinecraftTask(project).execute(project)
-                    DownloadMappingsTask().execute(project)
-                    FinalizeTask().execute(project)
-                } else {
-                    logger.error("Minecraft not setup - minecraft or mappings not initialized!")
-                }
+
+            project.repositories.add(getMavenRepository(project))
+
+            if (ModProject.isModProjectInitialized() && ModProject.modProjectInstance.fieldsInitialized()) {
+                DownloadManifestTask().execute(project)
+                DownloadJsonTask().execute(project)
+                DownloadMinecraftTask(project).execute(project)
+                DownloadMappingsTask().execute(project)
+                FinalizeTask().execute(project)
             } else {
-                logger.error("Minecraft not setup - nothing to download!")
+                throw RuntimeException("Missing \"minecraft\" block, no environment can be setup")
             }
+        }
+    }
+    private fun getMavenRepository(project: Project): MavenArtifactRepository {
+        return project.repositories.maven {
+            it.url = project.uri("https://libraries.minecraft.net")
         }
     }
 
@@ -50,7 +50,7 @@ class TorchLoaderPlugin : Plugin<Project> {
 }
 
 fun minecraft(notation: ModProject.() -> Unit) {
-    val proj = ModProject()
-    notation(proj)
-    ModProject.modProjectInstance = proj
+    val project = ModProject()
+    notation(project)
+    ModProject.modProjectInstance = project
 }

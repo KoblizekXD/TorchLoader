@@ -34,14 +34,14 @@ class FinalizeTask : EvaluatedTask() {
         }
     }
     class Logger : IFernflowerLogger() {
-        override fun writeMessage(message: String?, severity: Severity?) {
-            if (severity!!.ordinal >= Severity.WARN.ordinal) {
+        override fun writeMessage(message: String, severity: Severity) {
+            if (severity.ordinal >= Severity.WARN.ordinal) {
                 println(message)
             }
         }
 
-        override fun writeMessage(message: String?, severity: Severity?, t: Throwable?) {
-            if (severity!!.ordinal >= Severity.WARN.ordinal) {
+        override fun writeMessage(message: String, severity: Severity, t: Throwable) {
+            if (severity.ordinal >= Severity.WARN.ordinal) {
                 println(message)
             }
         }

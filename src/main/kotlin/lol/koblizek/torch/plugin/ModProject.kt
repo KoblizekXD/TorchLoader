@@ -19,4 +19,5 @@ class ModProject {
 
     fun isMinecraftInitialized(): Boolean = ::minecraft.isInitialized
     fun areMappingsInitialized(): Boolean = ::mappings.isInitialized
+    fun fieldsInitialized(): Boolean = isMinecraftInitialized() && areMappingsInitialized()
 }

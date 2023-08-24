@@ -23,11 +23,7 @@ class DownloadMinecraftTask(val project: Project) : EvaluatedTask() {
         json.getAsJsonArray("libraries").forEach {
             val library = it.asJsonObject.getAsJsonPrimitive("name").asString
             if (shouldDownload(it.asJsonObject)) {
-                if (isNative(library)) {
-                    project.dependencies.add("runtimeOnly", library)
-                } else {
-                    project.dependencies.add("implementation", library)
-                }
+                project.dependencies.add(if (isNative(library)) "runtimeOnly" else "implementation", library)
             }
         }
     }

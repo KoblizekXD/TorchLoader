@@ -2,7 +2,7 @@ package lol.koblizek.torch.plugin.json
 
 import com.google.gson.annotations.Expose
 
-class Version(
+data class Version(
     @Expose val id: String,
     @Expose val type: String,
     @Expose val url: String,
