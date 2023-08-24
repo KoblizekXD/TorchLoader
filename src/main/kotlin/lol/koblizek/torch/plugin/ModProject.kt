@@ -9,12 +9,12 @@ class ModProject {
 
     lateinit var minecraft: String
     lateinit var mappings: String
-    lateinit var mcDev: MinecraftDevelopment
+    lateinit var minecraftDevelopment: MinecraftDevelopment
 
     fun development(development: MinecraftDevelopment.() -> Unit) {
         val dev = MinecraftDevelopment()
         development(dev)
-        mcDev = dev
+        minecraftDevelopment = dev
     }
 
     private fun isMinecraftInitialized(): Boolean = ::minecraft.isInitialized

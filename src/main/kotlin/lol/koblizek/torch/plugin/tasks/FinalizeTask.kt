@@ -13,7 +13,7 @@ class FinalizeTask : EvaluatedTask() {
     override val name: String = "finalizeGameSetup"
 
     override fun onEvaluation(modProject: ModProject, project: Project) {
-        if (modProject.mcDev.decompile) {
+        if (modProject.minecraftDevelopment.decompile) {
             val props: MutableMap<String, Any> = HashMap(IFernflowerPreferences.DEFAULTS)
             props[IFernflowerPreferences.DECOMPILE_GENERIC_SIGNATURES] = "1"
             props[IFernflowerPreferences.REMOVE_SYNTHETIC] = "1"
