@@ -5,7 +5,6 @@ import com.google.gson.JsonObject
 import lol.koblizek.torch.plugin.ModProject
 import lol.koblizek.torch.plugin.util.Download
 import org.apache.commons.lang3.SystemUtils
-import org.apache.groovy.util.SystemUtil
 import org.gradle.api.Project
 
 class DownloadMinecraftTask(val project: Project) : EvaluatedTask() {

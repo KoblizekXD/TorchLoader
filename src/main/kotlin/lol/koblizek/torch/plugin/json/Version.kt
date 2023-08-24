@@ -10,6 +10,4 @@ data class Version(
     @Expose val releaseTime: String,
     @Expose val sha1: String,
     @Expose val complianceLevel: Int
-) {
-    
-}
+)

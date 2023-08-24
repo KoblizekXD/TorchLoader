@@ -3,7 +3,6 @@ package lol.koblizek.torch.plugin.tasks
 import lol.koblizek.torch.plugin.ModProject
 import lol.koblizek.torch.plugin.util.Download
 import org.gradle.api.Project
-import org.gradle.api.plugins.JavaPluginConvention
 import org.jetbrains.java.decompiler.main.Fernflower
 import org.jetbrains.java.decompiler.main.decompiler.DirectoryResultSaver
 import org.jetbrains.java.decompiler.main.extern.IFernflowerLogger

@@ -10,4 +10,26 @@ data class VersionManifest(@SerializedName("latest")
     fun findByVersion(id: String): Version? {
         return versions.find { version -> version.id == id }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as VersionManifest
+
+        if (latest != other.latest) return false
+        if (!versions.contentEquals(other.versions)) return false
+
+        return true
+    }
+
+    override fun toString(): String {
+        return super.toString()
+    }
+
+    override fun hashCode(): Int {
+        var result = latest.hashCode()
+        result = 31 * result + versions.contentHashCode()
+        return result
+    }
 }

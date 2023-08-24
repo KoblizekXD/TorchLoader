@@ -5,5 +5,4 @@ import com.google.gson.annotations.SerializedName
 
 
 data class Latest(@SerializedName("release")
-                  @Expose val release: String, @SerializedName("snapshot") @Expose val snapshot: String) {
-}
+                  @Expose val release: String, @SerializedName("snapshot") @Expose val snapshot: String)
