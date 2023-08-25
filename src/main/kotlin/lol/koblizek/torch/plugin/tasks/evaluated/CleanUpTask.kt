@@ -10,18 +10,22 @@ class CleanUpTask : EvaluatedTask() {
 
     override fun onEvaluation(modProject: ModProject, project: Project) {
         println("Deleting all temporary files...")
-        File(TorchLoaderPlugin.downloadManifestTask.temporaryDir, "version-data.json")
-            .delete()
-        File(TorchLoaderPlugin.downloadJsonTask.temporaryDir, "minecraft-data.json")
-            .delete()
-        File(TorchLoaderPlugin.downloadMinecraftTask.temporaryDir, "minecraft.jar")
-            .delete()
-        File(TorchLoaderPlugin.downloadMinecraftTask.temporaryDir, "libraries.json")
-            .delete()
-        File(TorchLoaderPlugin.downloadMappingsTask.temporaryDir, "mappings-jar.jar")
-            .delete()
-        File(TorchLoaderPlugin.downloadMappingsTask.temporaryDir, "mappings.tiny")
-            .delete()
+        getDeletableFiles().forEach {
+            println("${it.name} deletion status: ${it.delete()}")
+        }
         println("Done")
+    }
+
+    companion object {
+        fun getDeletableFiles(): Array<File> {
+            return arrayOf(
+                File(TorchLoaderPlugin.downloadManifestTask.temporaryDir, "version-data.json"),
+                File(TorchLoaderPlugin.downloadJsonTask.temporaryDir, "minecraft-data.json"),
+                File(TorchLoaderPlugin.downloadMinecraftTask.temporaryDir, "minecraft.jar"),
+                File(TorchLoaderPlugin.downloadMinecraftTask.temporaryDir, "libraries.json"),
+                File(TorchLoaderPlugin.downloadMappingsTask.temporaryDir, "mappings-jar.jar"),
+                File(TorchLoaderPlugin.downloadMappingsTask.temporaryDir, "mappings.tiny"),
+            )
+        }
     }
 }

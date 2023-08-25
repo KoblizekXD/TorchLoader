@@ -1,7 +1,10 @@
 package lol.koblizek.torch.plugin
 
 import lol.koblizek.torch.plugin.tasks.*
+import lol.koblizek.torch.plugin.tasks.evaluated.CleanUpTask
 import lol.koblizek.torch.plugin.tasks.evaluated.DecompileTask
+import lol.koblizek.torch.plugin.tasks.evaluated.DeobfuscateTask
+import lol.koblizek.torch.plugin.tasks.evaluated.DownloadLibraries
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
@@ -34,11 +37,25 @@ class TorchLoaderPlugin : Plugin<Project> {
             project.repositories.add(getMavenRepository(project))
 
             if (ModProject.isModProjectInitialized() && ModProject.modProjectInstance.fieldsInitialized()) {
-                DecompileTask().execute(project)
+                if (temporaryFilesExist()) {
+                    DownloadLibraries().execute(project)
+                    DeobfuscateTask().execute(project)
+                    DecompileTask().execute(project)
+                    CleanUpTask().execute(project)
+                } else {
+                    throw RuntimeException("Hmm, seems like temporary files are missing, please redownload")
+                }
             } else {
                 throw RuntimeException("Missing \"minecraft\" block, no environment can be setup")
             }
         }
+    }
+    private fun temporaryFilesExist(): Boolean {
+        var exist = true
+        CleanUpTask.getDeletableFiles().forEach {
+            if (!it.exists()) exist = false
+        }
+        return exist
     }
     private fun getMavenRepository(project: Project): MavenArtifactRepository {
         return project.repositories.maven {
