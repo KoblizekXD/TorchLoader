@@ -10,7 +10,7 @@ import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.io.FileWriter
 
-class DownloadMinecraftTask(val project: Project) : DefaultTask() {
+class DownloadMinecraftTask : DefaultTask() {
     init {
         group = "torch"
     }
