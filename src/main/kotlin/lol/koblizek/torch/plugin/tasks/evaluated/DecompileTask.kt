@@ -1,4 +1,4 @@
-package lol.koblizek.torch.plugin.tasks
+package lol.koblizek.torch.plugin.tasks.evaluated
 
 import lol.koblizek.torch.plugin.ModProject
 import lol.koblizek.torch.plugin.util.Download

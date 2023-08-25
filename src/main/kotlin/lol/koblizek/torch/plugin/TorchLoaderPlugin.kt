@@ -1,6 +1,7 @@
 package lol.koblizek.torch.plugin
 
 import lol.koblizek.torch.plugin.tasks.*
+import lol.koblizek.torch.plugin.tasks.evaluated.DecompileTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository

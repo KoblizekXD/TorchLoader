@@ -7,6 +7,8 @@ import org.apache.commons.lang3.SystemUtils
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction
+import java.io.File
+import java.io.FileWriter
 
 class DownloadMinecraftTask(val project: Project) : DefaultTask() {
     init {
@@ -21,12 +23,14 @@ class DownloadMinecraftTask(val project: Project) : DefaultTask() {
             .getAsJsonObject("client")
             .getAsJsonPrimitive("url").asString
         Download(clientUrl, "minecraft.jar", true, this)
-        json.getAsJsonArray("libraries").forEach {
+        Gson().toJson(json.getAsJsonArray("libraries"),
+            FileWriter(File(temporaryDir, "libraries.json")))
+/*        json.getAsJsonArray("libraries").forEach {
             val library = it.asJsonObject.getAsJsonPrimitive("name").asString
             if (shouldDownload(it.asJsonObject)) {
                 project.dependencies.add(if (isNative(library)) "runtimeOnly" else "implementation", library)
             }
-        }
+        }*/
     }
     private fun shouldDownload(library: JsonObject): Boolean {
         if (library.getAsJsonArray("rules") == null) return true

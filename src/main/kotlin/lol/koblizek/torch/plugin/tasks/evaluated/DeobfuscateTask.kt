@@ -1,10 +1,7 @@
-package lol.koblizek.torch.plugin.tasks
+package lol.koblizek.torch.plugin.tasks.evaluated
 
-import com.google.gson.Gson
-import com.google.gson.JsonArray
 import lol.koblizek.torch.plugin.ModProject
 import lol.koblizek.torch.plugin.TorchLoaderPlugin
-import lol.koblizek.torch.plugin.util.Download
 import net.fabricmc.mappingio.MappingReader
 import net.fabricmc.mappingio.MappingWriter
 import net.fabricmc.mappingio.adapter.MappingNsCompleter
@@ -15,9 +12,7 @@ import net.fabricmc.tinyremapper.OutputConsumerPath
 import net.fabricmc.tinyremapper.TinyRemapper
 import net.fabricmc.tinyremapper.TinyUtils
 import org.gradle.api.Project
-import org.gradle.internal.component.external.model.ComponentVariant
 import java.io.*
-import java.net.URL
 import java.util.regex.Pattern
 
 class DeobfuscateTask : EvaluatedTask() {
