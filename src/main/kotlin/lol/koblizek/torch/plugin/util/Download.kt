@@ -16,7 +16,7 @@ class Download(url: String, name: String, asTask: Boolean = false, task: Default
     init {
         val uri = URL(url)
         file = if (asTask && task != null) {
-            task.temporaryDir
+            File(task.temporaryDir, name)
         } else File(File(System.getProperty("java.io.tmpdir")), name)
         uri.openStream().use { input ->
             file.outputStream().use { output ->

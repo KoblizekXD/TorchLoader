@@ -23,7 +23,6 @@ class CleanUpTask : EvaluatedTask() {
                 File(TorchLoaderPlugin.downloadJsonTask.temporaryDir, "minecraft-data.json"),
                 File(TorchLoaderPlugin.downloadMinecraftTask.temporaryDir, "minecraft.jar"),
                 File(TorchLoaderPlugin.downloadMinecraftTask.temporaryDir, "libraries.json"),
-                File(TorchLoaderPlugin.downloadMappingsTask.temporaryDir, "mappings-jar.jar"),
                 File(TorchLoaderPlugin.downloadMappingsTask.temporaryDir, "mappings.tiny"),
             )
         }

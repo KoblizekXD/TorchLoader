@@ -42,6 +42,8 @@ class TorchLoaderPlugin : Plugin<Project> {
                     DeobfuscateTask().execute(project)
                     DecompileTask().execute(project)
                     CleanUpTask().execute(project)
+                } else {
+                    println("Temps not found")
                 }
             } else {
                 throw RuntimeException("Missing \"minecraft\" block, no environment can be setup")
