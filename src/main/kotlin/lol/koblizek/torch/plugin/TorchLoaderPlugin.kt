@@ -1,6 +1,10 @@
 package lol.koblizek.torch.plugin
 
 import lol.koblizek.torch.plugin.tasks.*
+import lol.koblizek.torch.plugin.tasks.evaluated.CleanUpTask
+import lol.koblizek.torch.plugin.tasks.evaluated.DecompileTask
+import lol.koblizek.torch.plugin.tasks.evaluated.DeobfuscateTask
+import lol.koblizek.torch.plugin.tasks.evaluated.DownloadLibraries
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
@@ -23,20 +27,35 @@ import org.gradle.api.logging.Logger
 class TorchLoaderPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         logger = project.logger
-        project.afterEvaluate {
 
+        downloadManifestTask = project.tasks.create("downloadManifest", DownloadManifestTask::class.java)
+        downloadJsonTask = project.tasks.create("downloadJson", DownloadJsonTask::class.java)
+        downloadMinecraftTask = project.tasks.create("downloadMinecraft", DownloadMinecraftTask::class.java)
+        downloadMappingsTask = project.tasks.create("downloadMappings", DownloadMappingsTask::class.java)
+
+        project.afterEvaluate {
             project.repositories.add(getMavenRepository(project))
 
             if (ModProject.isModProjectInitialized() && ModProject.modProjectInstance.fieldsInitialized()) {
-                DownloadManifestTask().execute(project)
-                DownloadJsonTask().execute(project)
-                DownloadMinecraftTask(project).execute(project)
-                DownloadMappingsTask().execute(project)
-                FinalizeTask().execute(project)
+                if (temporaryFilesExist()) {
+                    DownloadLibraries().execute(project)
+                    DeobfuscateTask().execute(project)
+                    DecompileTask().execute(project)
+                    CleanUpTask().execute(project)
+                } else {
+                    println("Temps not found")
+                }
             } else {
                 throw RuntimeException("Missing \"minecraft\" block, no environment can be setup")
             }
         }
+    }
+    private fun temporaryFilesExist(): Boolean {
+        var exist = true
+        CleanUpTask.getDeletableFiles().forEach {
+            if (!it.exists()) exist = false
+        }
+        return exist
     }
     private fun getMavenRepository(project: Project): MavenArtifactRepository {
         return project.repositories.maven {
@@ -46,6 +65,11 @@ class TorchLoaderPlugin : Plugin<Project> {
 
     companion object {
         internal lateinit var logger: Logger
+
+        internal lateinit var downloadManifestTask: DownloadManifestTask
+        internal lateinit var downloadJsonTask: DownloadJsonTask
+        internal lateinit var downloadMinecraftTask: DownloadMinecraftTask
+        internal lateinit var downloadMappingsTask: DownloadMappingsTask
     }
 }
 

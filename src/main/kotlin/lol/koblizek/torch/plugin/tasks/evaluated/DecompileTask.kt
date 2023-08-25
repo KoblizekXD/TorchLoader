@@ -1,6 +1,7 @@
-package lol.koblizek.torch.plugin.tasks
+package lol.koblizek.torch.plugin.tasks.evaluated
 
 import lol.koblizek.torch.plugin.ModProject
+import lol.koblizek.torch.plugin.TorchLoaderPlugin
 import lol.koblizek.torch.plugin.util.Download
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
@@ -12,7 +13,7 @@ import java.io.File
 import java.util.zip.ZipFile
 
 
-class FinalizeTask : EvaluatedTask() {
+class DecompileTask : EvaluatedTask() {
     override val name: String = "finalizeGameSetup"
 
     override fun onEvaluation(modProject: ModProject, project: Project) {
@@ -30,18 +31,21 @@ class FinalizeTask : EvaluatedTask() {
                     props,
                     Logger()
                 )
-                fernFlower.addSource(Download.getFile("minecraft-deobf.jar"))
+                fernFlower.addSource(getDeobfuscatedJar())
                 fernFlower.addWhitelist("net/minecraft")
                 fernFlower.addWhitelist("com/mojang")
                 fernFlower.decompileContext()
-                copyFromZipToResources(Download.getFile("minecraft-deobf.jar"), project)
+                copyFromZipToResources(getDeobfuscatedJar(), project)
             } else {
                 logger.quiet("Minecraft resource are not missing, no need to redownload")
             }
         } else {
             // TODO: Apply binary patches
-            project.dependencies.add("implementation", Download.getFile("minecraft-deobf.jar"))
+            project.dependencies.add("implementation", getDeobfuscatedJar())
         }
+    }
+    private fun getDeobfuscatedJar(): File {
+        return File(TorchLoaderPlugin.downloadMinecraftTask.temporaryDir, "minecraft-deobf.jar")
     }
     private fun copyFromZipToResources(file: File, project: Project) {
         val zipFile = ZipFile(file)

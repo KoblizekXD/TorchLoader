@@ -1,5 +1,6 @@
 package lol.koblizek.torch.plugin.util
 
+import org.gradle.api.DefaultTask
 import java.io.File
 import java.net.URL
 
@@ -9,12 +10,14 @@ import java.net.URL
  * @param url download URL
  * @param name name of the file
  */
-class Download(url: String, name: String) {
+class Download(url: String, name: String, asTask: Boolean = false, task: DefaultTask? = null) {
     internal val file: File
 
     init {
         val uri = URL(url)
-        file = File(File(System.getProperty("java.io.tmpdir")), name)
+        file = if (asTask && task != null) {
+            File(task.temporaryDir, name)
+        } else File(File(System.getProperty("java.io.tmpdir")), name)
         uri.openStream().use { input ->
             file.outputStream().use { output ->
                 input.copyTo(output)
@@ -22,8 +25,10 @@ class Download(url: String, name: String) {
         }
     }
     companion object {
-        fun getFile(name: String): File {
-            return File(File(System.getProperty("java.io.tmpdir")), name)
+        fun getFile(name: String, asTask: Boolean = false, task: DefaultTask? = null): File {
+            return if (asTask && task != null) {
+                File(task.temporaryDir, name)
+            } else File(File(System.getProperty("java.io.tmpdir")), name)
         }
     }
 }
