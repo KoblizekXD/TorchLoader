@@ -39,11 +39,6 @@ class DownloadMappingsTask : DefaultTask() {
                 zipFile.getInputStream(zipFile.getEntry("mappings/mappings.tiny")),
                 file
             )
-            deobfuscate(
-                Download.getFile("minecraft.jar", true, this),
-                Download.getFile("minecraft-deobf.jar", true, this),
-                file
-            )
         }
     }
     private fun getMappingsUrl(gameVersion: String): String {
@@ -52,38 +47,8 @@ class DownloadMappingsTask : DefaultTask() {
         return "https://maven.fabricmc.net/net/fabricmc/yarn/$latestMappings/yarn-$latestMappings-mergedv2.jar"
     }
     private fun readJsonArray(version: String): JsonArray {
-        return Gson().fromJson(InputStreamReader(URL("https://meta.fabricmc.net/v2/versions/yarn/$version").openStream()),
+        return Gson().fromJson(
+            InputStreamReader(URL("https://meta.fabricmc.net/v2/versions/yarn/$version").openStream()),
             JsonArray::class.java)
-    }
-    private fun deobfuscate(inputJar: File, outputPath: File, mappings: File) {
-        val writer = StringWriter()
-        MappingWriter.create(writer, MappingFormat.TINY_2).use { mapper ->
-            MappingReader.read(
-                mappings.toPath(), MappingNsCompleter(
-                    MappingSourceNsSwitch(mapper, "official", true), emptyMap<String, String>()
-                )
-            )
-        }
-        val remapper = TinyRemapper.newRemapper().invalidLvNamePattern(Pattern.compile("\\$\\$\\d+"))
-            .inferNameFromSameLvIndex(true)
-            .withMappings(
-                TinyUtils.createTinyMappingProvider(
-                    BufferedReader(StringReader(writer.toString())),
-                    "official",
-                    "named"
-                )
-            ).build()
-        writer.close()
-        try {
-            OutputConsumerPath.Builder(outputPath.toPath()).build().use { outputConsumer ->
-                outputConsumer.addNonClassFiles(inputJar.toPath(), NonClassCopyMode.FIX_META_INF, remapper)
-                remapper.readInputs(inputJar.toPath())
-                remapper.apply(outputConsumer)
-            }
-        } catch (e: IOException) {
-            logger.error("Error occurred but was ignored")
-        } finally {
-            remapper.finish()
-        }
     }
 }

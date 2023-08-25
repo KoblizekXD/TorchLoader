@@ -1,4 +1,4 @@
-package lol.koblizek.torch.plugin.tasks.torch
+package lol.koblizek.torch.plugin.tasks
 
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.tasks.JavaExec

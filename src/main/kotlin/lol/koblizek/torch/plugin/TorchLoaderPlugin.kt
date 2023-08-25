@@ -33,11 +33,7 @@ class TorchLoaderPlugin : Plugin<Project> {
             project.repositories.add(getMavenRepository(project))
 
             if (ModProject.isModProjectInitialized() && ModProject.modProjectInstance.fieldsInitialized()) {
-                // DownloadManifestTask().execute(project)
-                // DownloadJsonTask().execute(project)
-                // DownloadMinecraftTask(project).execute(project)
-                // DownloadMappingsTask().execute(project)
-                FinalizeTask().execute(project)
+                DecompileTask().execute(project)
             } else {
                 throw RuntimeException("Missing \"minecraft\" block, no environment can be setup")
             }

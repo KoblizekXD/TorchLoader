@@ -12,7 +12,7 @@ import java.io.File
 import java.util.zip.ZipFile
 
 
-class FinalizeTask : EvaluatedTask() {
+class DecompileTask : EvaluatedTask() {
     override val name: String = "finalizeGameSetup"
 
     override fun onEvaluation(modProject: ModProject, project: Project) {
