@@ -4,22 +4,12 @@ import com.google.gson.Gson
 import com.google.gson.JsonArray
 import lol.koblizek.torch.plugin.ModProject
 import lol.koblizek.torch.plugin.util.Download
-import net.fabricmc.mappingio.MappingReader
-import net.fabricmc.mappingio.MappingWriter
-import net.fabricmc.mappingio.adapter.MappingNsCompleter
-import net.fabricmc.mappingio.adapter.MappingSourceNsSwitch
-import net.fabricmc.mappingio.format.MappingFormat
-import net.fabricmc.tinyremapper.NonClassCopyMode
-import net.fabricmc.tinyremapper.OutputConsumerPath
-import net.fabricmc.tinyremapper.TinyRemapper
-import net.fabricmc.tinyremapper.TinyUtils
 import org.apache.commons.io.FileUtils
 import org.gradle.api.DefaultTask
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction
-import java.io.*
+import java.io.InputStreamReader
 import java.net.URL
-import java.util.regex.Pattern
 import java.util.zip.ZipFile
 
 
