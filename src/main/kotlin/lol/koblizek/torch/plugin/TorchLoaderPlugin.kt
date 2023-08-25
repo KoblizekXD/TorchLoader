@@ -23,6 +23,12 @@ import org.gradle.api.logging.Logger
 class TorchLoaderPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         logger = project.logger
+
+        downloadManifestTask = project.tasks.create("downloadManifest", DownloadManifestTask::class.java)
+        downloadJsonTask = project.tasks.create("downloadJson", DownloadJsonTask::class.java)
+        downloadMinecraftTask = project.tasks.create("downloadMinecraft", DownloadMinecraftTask::class.java)
+        downloadMappingsTask = project.tasks.create("downloadMappings", DownloadMappingsTask::class.java)
+
         project.afterEvaluate {
             project.repositories.add(getMavenRepository(project))
 
@@ -30,7 +36,7 @@ class TorchLoaderPlugin : Plugin<Project> {
                 // DownloadManifestTask().execute(project)
                 // DownloadJsonTask().execute(project)
                 // DownloadMinecraftTask(project).execute(project)
-                DownloadMappingsTask().execute(project)
+                // DownloadMappingsTask().execute(project)
                 FinalizeTask().execute(project)
             } else {
                 throw RuntimeException("Missing \"minecraft\" block, no environment can be setup")
@@ -45,6 +51,11 @@ class TorchLoaderPlugin : Plugin<Project> {
 
     companion object {
         internal lateinit var logger: Logger
+
+        internal lateinit var downloadManifestTask: DownloadManifestTask
+        internal lateinit var downloadJsonTask: DownloadJsonTask
+        internal lateinit var downloadMinecraftTask: DownloadMinecraftTask
+        internal lateinit var downloadMappingsTask: DownloadMappingsTask
     }
 }
 
