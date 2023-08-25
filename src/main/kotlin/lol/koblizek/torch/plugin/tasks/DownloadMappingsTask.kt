@@ -3,6 +3,7 @@ package lol.koblizek.torch.plugin.tasks
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import lol.koblizek.torch.plugin.ModProject
+import lol.koblizek.torch.plugin.TorchLoaderPlugin
 import lol.koblizek.torch.plugin.util.Download
 import org.apache.commons.io.FileUtils
 import org.gradle.api.DefaultTask
@@ -19,9 +20,9 @@ class DownloadMappingsTask : DefaultTask() {
     }
 
     @TaskAction
-    fun downloadMappings(modProject: ModProject, project: Project) {
-        if (modProject.mappings == "yarn") {
-            val finalUrl = getMappingsUrl(modProject.minecraft)
+    fun downloadMappings() {
+        if (ModProject.modProjectInstance.mappings == "yarn") {
+            val finalUrl = getMappingsUrl(ModProject.modProjectInstance.minecraft)
             val mappingFile = Download(finalUrl, "mappings-jar.jar").file
             val zipFile = ZipFile(mappingFile)
             val file = Download.getFile("mappings.tiny", true, this)
