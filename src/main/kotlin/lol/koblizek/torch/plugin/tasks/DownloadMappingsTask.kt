@@ -14,33 +14,36 @@ import net.fabricmc.tinyremapper.OutputConsumerPath
 import net.fabricmc.tinyremapper.TinyRemapper
 import net.fabricmc.tinyremapper.TinyUtils
 import org.apache.commons.io.FileUtils
+import org.gradle.api.DefaultTask
 import org.gradle.api.Project
+import org.gradle.api.tasks.TaskAction
 import java.io.*
 import java.net.URL
 import java.util.regex.Pattern
 import java.util.zip.ZipFile
 
 
-class DownloadMappingsTask : EvaluatedTask() {
-    override val name: String = "downloadMappings"
+class DownloadMappingsTask : DefaultTask() {
+    init {
+        group = "torch"
+    }
 
-    override fun onEvaluation(modProject: ModProject, project: Project) {
+    @TaskAction
+    fun downloadMappings(modProject: ModProject, project: Project) {
         if (modProject.mappings == "yarn") {
             val finalUrl = getMappingsUrl(modProject.minecraft)
             val mappingFile = Download(finalUrl, "mappings-jar.jar").file
             val zipFile = ZipFile(mappingFile)
-            if (!Download.getFile("mappings.tiny").exists()) {
-                val file = Download.getFile("mappings.tiny")
-                FileUtils.copyInputStreamToFile(
-                    zipFile.getInputStream(zipFile.getEntry("mappings/mappings.tiny")),
-                    file
-                )
-                deobfuscate(
-                    Download.getFile("minecraft.jar"),
-                    Download.getFile("minecraft-deobf.jar"),
-                    file
-                )
-            }
+            val file = Download.getFile("mappings.tiny", true, this)
+            FileUtils.copyInputStreamToFile(
+                zipFile.getInputStream(zipFile.getEntry("mappings/mappings.tiny")),
+                file
+            )
+            deobfuscate(
+                Download.getFile("minecraft.jar", true, this),
+                Download.getFile("minecraft-deobf.jar", true, this),
+                file
+            )
         }
     }
     private fun getMappingsUrl(gameVersion: String): String {

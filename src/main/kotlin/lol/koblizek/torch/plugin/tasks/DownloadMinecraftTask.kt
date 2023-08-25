@@ -2,8 +2,6 @@ package lol.koblizek.torch.plugin.tasks
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import groovy.lang.Closure
-import lol.koblizek.torch.plugin.ModProject
 import lol.koblizek.torch.plugin.util.Download
 import org.apache.commons.lang3.SystemUtils
 import org.gradle.api.DefaultTask
