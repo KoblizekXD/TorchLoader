@@ -8,7 +8,7 @@ import org.gradle.api.tasks.TaskAction
 import java.io.File
 import java.io.FileWriter
 
-class DownloadMinecraftTask : DefaultTask() {
+abstract class DownloadMinecraftTask : DefaultTask() {
     init {
         group = "torch"
     }

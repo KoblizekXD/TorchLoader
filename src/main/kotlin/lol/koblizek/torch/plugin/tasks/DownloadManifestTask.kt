@@ -4,7 +4,7 @@ import lol.koblizek.torch.plugin.util.Download
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 
-class DownloadManifestTask : DefaultTask() {
+abstract class DownloadManifestTask : DefaultTask() {
     init {
         group = "torch"
     }

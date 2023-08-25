@@ -42,8 +42,6 @@ class TorchLoaderPlugin : Plugin<Project> {
                     DeobfuscateTask().execute(project)
                     DecompileTask().execute(project)
                     CleanUpTask().execute(project)
-                } else {
-                    throw RuntimeException("Hmm, seems like temporary files are missing, please redownload")
                 }
             } else {
                 throw RuntimeException("Missing \"minecraft\" block, no environment can be setup")
