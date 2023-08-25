@@ -2,23 +2,27 @@ package lol.koblizek.torch.plugin.tasks
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import groovy.lang.Closure
 import lol.koblizek.torch.plugin.ModProject
 import lol.koblizek.torch.plugin.util.Download
 import org.apache.commons.lang3.SystemUtils
+import org.gradle.api.DefaultTask
 import org.gradle.api.Project
+import org.gradle.api.tasks.TaskAction
 
-class DownloadMinecraftTask(val project: Project) : EvaluatedTask() {
-    override val name: String = "downloadMinecraft"
+class DownloadMinecraftTask(val project: Project) : DefaultTask() {
+    init {
+        group = "torch"
+    }
 
-    override fun onEvaluation(modProject: ModProject, project: Project) {
+    @TaskAction
+    fun download() {
         val file = Download.getFile("minecraft-data.json")
         val json = Gson().fromJson(file.readText(), JsonObject::class.java)
-        if (!Download.getFile("minecraft.jar").exists()) {
-            val clientUrl = json.getAsJsonObject("downloads")
-                .getAsJsonObject("client")
-                .getAsJsonPrimitive("url").asString
-            Download(clientUrl, "minecraft.jar")
-        }
+        val clientUrl = json.getAsJsonObject("downloads")
+            .getAsJsonObject("client")
+            .getAsJsonPrimitive("url").asString
+        Download(clientUrl, "minecraft.jar", true, this)
         json.getAsJsonArray("libraries").forEach {
             val library = it.asJsonObject.getAsJsonPrimitive("name").asString
             if (shouldDownload(it.asJsonObject)) {

@@ -27,9 +27,9 @@ class TorchLoaderPlugin : Plugin<Project> {
             project.repositories.add(getMavenRepository(project))
 
             if (ModProject.isModProjectInitialized() && ModProject.modProjectInstance.fieldsInitialized()) {
-                DownloadManifestTask().execute(project)
-                DownloadJsonTask().execute(project)
-                DownloadMinecraftTask(project).execute(project)
+                // DownloadManifestTask().execute(project)
+                // DownloadJsonTask().execute(project)
+                // DownloadMinecraftTask(project).execute(project)
                 DownloadMappingsTask().execute(project)
                 FinalizeTask().execute(project)
             } else {

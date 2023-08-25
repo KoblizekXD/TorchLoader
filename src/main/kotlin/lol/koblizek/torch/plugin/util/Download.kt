@@ -25,8 +25,10 @@ class Download(url: String, name: String, asTask: Boolean = false, task: Default
         }
     }
     companion object {
-        fun getFile(name: String): File {
-            return File(File(System.getProperty("java.io.tmpdir")), name)
+        fun getFile(name: String, asTask: Boolean = false, task: DefaultTask? = null): File {
+            return if (asTask && task != null) {
+                File(task.temporaryDir, name)
+            } else File(File(System.getProperty("java.io.tmpdir")), name)
         }
     }
 }
