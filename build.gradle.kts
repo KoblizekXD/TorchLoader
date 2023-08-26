@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm") version "1.9.0"
     `maven-publish`
     `java-gradle-plugin`
+    id("com.gradle.plugin-publish") version "1.1.0"
 }
 
 group = "lol.koblizek"
