@@ -25,6 +25,13 @@ class DownloadLibraries : EvaluatedTask() {
             }
         }
     }
+    /**
+     * Returns a boolean if the library should be downloaded. This process is required since some libraries
+     * are downloaded only for Mac/Linux/Windows
+     *
+     * @param library json library field
+     * @return if the library should be downloaded or not
+     */
     private fun shouldDownload(library: JsonObject): Boolean {
         if (library.getAsJsonArray("rules") == null) return true
         val name = library.getAsJsonArray("rules")[0]
@@ -40,6 +47,14 @@ class DownloadLibraries : EvaluatedTask() {
             false
         }
     }
+
+    /**
+     * Returns a boolean whether is library counted as native, if so it will be used
+     * as a runtimeOnly dependency later in installation process
+     *
+     * @param libraryName library name
+     * @return whether is library native or no
+     */
     private fun isNative(libraryName: String): Boolean {
         return libraryName.contains("native")
     }

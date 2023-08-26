@@ -17,6 +17,9 @@ class CleanUpTask : EvaluatedTask() {
     }
 
     companion object {
+        /**
+         * @return array of temporary task files that can be deleted by a cleanUp task
+         */
         fun getDeletableFiles(): Array<File> {
             return arrayOf(
                 File(TorchLoaderPlugin.downloadManifestTask.temporaryDir, "version-data.json"),

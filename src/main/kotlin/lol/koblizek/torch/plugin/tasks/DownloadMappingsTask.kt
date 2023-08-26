@@ -33,11 +33,25 @@ abstract class DownloadMappingsTask : DefaultTask() {
             )
         }
     }
+
+    /**
+     * Gets url for yarn mapping file with specified game version
+     *
+     * @param gameVersion game version to use
+     * @return url with mappings jar
+     */
     private fun getMappingsUrl(gameVersion: String): String {
         val array = readJsonArray(gameVersion)
         val latestMappings = array[0].asJsonObject.getAsJsonPrimitive("version").asString
         return "https://maven.fabricmc.net/net/fabricmc/yarn/$latestMappings/yarn-$latestMappings-mergedv2.jar"
     }
+
+    /**
+     * Gets all yarn mapping versions for specified game version
+     *
+     * @param version game version to read the yarn mappings from
+     * @return json array containing all yarn mapping versions for the specified game version
+     */
     private fun readJsonArray(version: String): JsonArray {
         return Gson().fromJson(
             InputStreamReader(URL("https://meta.fabricmc.net/v2/versions/yarn/$version").openStream()),
