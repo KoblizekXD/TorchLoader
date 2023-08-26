@@ -23,7 +23,7 @@ Next, we add following lines to import TorchLoader plugin into gradle:
 ```kotlin
 // build.gradle.kts
 plugins {
-    id("torch-loader") version("version to use") // Version will be in our case, the latest one from releases page
+    id("lol.koblizek.torch-loader") version("version to use") // Version will be in our case, the latest one from releases page
 }
 ```  
 Now we need to reload the project. Once that is done we can specify all the things we want:  
