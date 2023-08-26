@@ -33,10 +33,16 @@ kotlin {
     jvmToolchain(17)
 }
 gradlePlugin {
+    website = "https://github.com/KoblizekXD/TorchLoader"
+    vcsUrl = "https://github.com/KoblizekXD/TorchLoader"
+
     plugins {
         create("torch-loader") {
-            id = "torch-loader"
+            id = "lol.koblizek.torch-loader"
+            displayName = "Torch Loader"
+            description = "Plugin which makes creating Minecraft development much easier!"
             implementationClass = "lol.koblizek.torch.plugin.TorchLoaderPlugin"
+            tags = listOf("minecraft", "modding", "decompilation", "deobfuscation")
         }
     }
 }
