@@ -7,6 +7,7 @@ import org.gradle.api.tasks.TaskAction
 abstract class DownloadManifestTask : DefaultTask() {
     init {
         group = "torch"
+        description = "Downloads minecraft version manifest"
     }
     @TaskAction
     fun downloadManifest() {

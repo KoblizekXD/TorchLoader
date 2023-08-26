@@ -16,6 +16,7 @@ import java.util.zip.ZipFile
 abstract class DownloadMappingsTask : DefaultTask() {
     init {
         group = "torch"
+        description = "Downloads the specified game mappings for specified version"
         dependsOn(TorchLoaderPlugin.downloadMinecraftTask)
     }
 
