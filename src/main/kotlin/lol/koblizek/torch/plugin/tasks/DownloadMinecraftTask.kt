@@ -12,6 +12,7 @@ import java.io.FileWriter
 abstract class DownloadMinecraftTask : DefaultTask() {
     init {
         group = "torch"
+        description = "Downloads a Minecraft jar and parses it's libraries into separate Json"
         dependsOn(TorchLoaderPlugin.downloadJsonTask)
     }
 

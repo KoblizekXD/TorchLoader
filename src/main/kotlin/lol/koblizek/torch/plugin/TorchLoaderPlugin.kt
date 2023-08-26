@@ -50,6 +50,12 @@ class TorchLoaderPlugin : Plugin<Project> {
             }
         }
     }
+
+    /**
+     * Check if temporary files from `torch` tasks exists, returns true they do, false otherwise
+     * @see CleanUpTask.getDeletableFiles
+     * @return true if at least one file exist, if no files exist, returns false
+     */
     private fun temporaryFilesExist(): Boolean {
         var exist = true
         CleanUpTask.getDeletableFiles().forEach {
@@ -57,6 +63,11 @@ class TorchLoaderPlugin : Plugin<Project> {
         }
         return exist
     }
+
+    /**
+     * Returns main Minecraft maven repository
+     * @return Minecraft's library repository
+     */
     private fun getMavenRepository(project: Project): MavenArtifactRepository {
         return project.repositories.maven {
             it.url = project.uri("https://libraries.minecraft.net")
@@ -73,6 +84,23 @@ class TorchLoaderPlugin : Plugin<Project> {
     }
 }
 
+/**
+ * Main modding entrypoint, used to specify:
+ *  - game version
+ *  - game mappings
+ *  - game api to use
+ *  - if game should be used as dependency or as source
+ * Example usage:
+ * ```kotlin
+ * minecraft {
+ *     mappings = "yarn" // Minecraft mappings to use(currently supports only yarn)
+ *     minecraft = "1.19.4" // Minecraft version to use
+ *     development {
+ *          decompile = true // decompile Minecraft's source code into main source set
+ *     }
+ * }
+ * ```
+ */
 fun minecraft(notation: ModProject.() -> Unit) {
     val project = ModProject()
     notation(project)

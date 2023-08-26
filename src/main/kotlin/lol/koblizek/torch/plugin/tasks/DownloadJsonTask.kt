@@ -12,6 +12,7 @@ import java.io.File
 abstract class DownloadJsonTask : DefaultTask() {
     init {
         group = "torch"
+        description = "Downloads Json file for currently specified minecraft version"
         dependsOn(TorchLoaderPlugin.downloadManifestTask)
     }
     @TaskAction

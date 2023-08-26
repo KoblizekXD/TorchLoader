@@ -31,7 +31,7 @@ class DecompileTask : EvaluatedTask() {
                 )
                 fernFlower.addSource(getDeobfuscatedJar())
                 fernFlower.decompileContext()
-                moveNonCodeFiles(getDeobfuscatedJar(), project)
+                moveNonCodeFiles(project)
             } else {
                 logger.quiet("Minecraft resource are not missing, no need to redownload")
             }
@@ -40,10 +40,21 @@ class DecompileTask : EvaluatedTask() {
             project.dependencies.add("implementation", getDeobfuscatedJar())
         }
     }
+
+    /**
+     * Gets a file for deobfuscated Minecraft jar
+     *
+     * @return deobfuscated minecraft jar file
+     */
     private fun getDeobfuscatedJar(): File {
         return File(TorchLoaderPlugin.downloadMinecraftTask.temporaryDir, "minecraft-deobf.jar")
     }
-    private fun moveNonCodeFiles(file: File, project: Project) {
+    /**
+     * Moves all files decompiled by fern-flower which are not code, into a resource directory of main source set
+     *
+     * @param project applying project
+     */
+    private fun moveNonCodeFiles(project: Project) {
         val resources = project.file("src/main/resources/")
         val main = project.file("src/main/java/")
 

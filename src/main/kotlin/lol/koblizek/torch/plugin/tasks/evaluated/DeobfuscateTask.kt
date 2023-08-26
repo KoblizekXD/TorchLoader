@@ -25,6 +25,15 @@ class DeobfuscateTask : EvaluatedTask() {
             File(TorchLoaderPlugin.downloadMappingsTask.temporaryDir, "mappings.tiny")
         )
     }
+
+    /**
+     * Deobfuscates a jar with specified mappings files using Tiny Remapper and Mappings IO
+     *
+     * @param inputJar jar that will be remapped
+     * @param outputPath path for new remapped jar
+     * @param mappings mapping file to use
+     * @author people on fabric discord
+     */
     private fun deobfuscate(inputJar: File, outputPath: File, mappings: File) {
         val writer = StringWriter()
         MappingWriter.create(writer, MappingFormat.TINY_2).use { mapper ->

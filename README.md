@@ -3,19 +3,38 @@ Gradle plugin for maintaining Torch Loader API. Many parts of code were taken fr
 which was abandoned, due to problems found in code and rewrite was recommended.  
 
 ### Installation  
-TODO :(  
+It's currently [Usage](#usage-) how to install the plugin
 
 ### Usage  
 Though TorchLoader is mainly used for mod development, it also supports decompiling Minecraft's source code to your 
 projects directory, meaning full access to its source code(Don't forget, that redistribution of that code is **violation**
-of EULA). You can find here a temporary code sample, how would implementation of the plugin would look like.  
+of EULA).   
+First we need to add it into dependencies, to do so, open `settings.gradle.kts` file and add following lines before 
+anything else:  
 ```kotlin
+pluginManagement {
+    repositories {
+        // This will add gradlePluginPortal as repository, this is where torchloader plugin is stored at
+        gradlePluginPortal()
+    }
+}
+```  
+Next, we add following lines to import TorchLoader plugin into gradle:
+```kotlin
+// build.gradle.kts
+plugins {
+    id("torch-loader") version("version to use") // Version will be in our case, the latest one from releases page
+}
+```  
+Now we need to reload the project. Once that is done we can specify all the things we want:  
+```kotlin
+// build.gradle.kts
 minecraft {
     version = "1.19.2"
     mappings = "yarn"
     // Only if developing client or api
     development {
-        // Modify fields
+        decompile = true // Decompiles game into source directory
     }
 }
 ```
