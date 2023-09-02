@@ -46,8 +46,8 @@ class TorchLoaderPlugin : Plugin<Project> {
             project.repositories.add(getMavenRepository(project))
 
             if (ModProject.isModProjectInitialized() && ModProject.modProjectInstance.fieldsInitialized()) {
+                DownloadLibraries().execute(project)
                 if (temporaryFilesExist()) {
-                    DownloadLibraries().execute(project)
                     DeobfuscateTask().execute(project)
                     DecompileTask().execute(project)
                     CleanUpTask().execute(project)
