@@ -9,6 +9,8 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 import org.gradle.api.logging.Logger
+import org.gradle.api.tasks.compile.JavaCompile
+import org.gradle.api.tasks.testing.Test
 
 /**
  * Main plugin entrypoint
@@ -32,6 +34,13 @@ class TorchLoaderPlugin : Plugin<Project> {
         downloadJsonTask = project.tasks.create("downloadJson", DownloadJsonTask::class.java)
         downloadMinecraftTask = project.tasks.create("downloadMinecraft", DownloadMinecraftTask::class.java)
         downloadMappingsTask = project.tasks.create("downloadMappings", DownloadMappingsTask::class.java)
+
+        project.tasks.withType(JavaCompile::class.java) {
+            it.options.encoding = "UTF-8"
+        }
+        project.tasks.withType(Test::class.java) {
+            it.systemProperty("file.encoding", "UTF-8")
+        }
 
         project.afterEvaluate {
             project.repositories.add(getMavenRepository(project))
