@@ -17,6 +17,7 @@ class DecompileTask : EvaluatedTask() {
     override fun onEvaluation(modProject: ModProject, project: Project) {
         if (modProject.isMinecraftDevelopmentInitialized() && modProject.minecraftDevelopment.decompile) {
             if (!project.file("src/main/resources/assets/").exists()) {
+                //CFRDecompiler().decompile(project.file("src/main/java/decompiled.jar").toPath(), getDeobfuscatedJar().toPath())
                 val props: MutableMap<String, Any> = HashMap(IFernflowerPreferences.DEFAULTS)
                 props[IFernflowerPreferences.DECOMPILE_GENERIC_SIGNATURES] = "1"
                 props[IFernflowerPreferences.REMOVE_SYNTHETIC] = "1"
@@ -59,8 +60,8 @@ class DecompileTask : EvaluatedTask() {
         val main = project.file("src/main/java/")
 
         main.listFiles()?.forEach {
-            if (it.name == "com" || it.name == "net") return
-            FileUtils.moveFileToDirectory(it, resources, true)
+            if (!(it.name == "com" || it.name == "net"))
+                FileUtils.moveToDirectory(it, resources, true)
         }
     }
     class Logger : IFernflowerLogger() {

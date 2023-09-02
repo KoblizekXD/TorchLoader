@@ -11,6 +11,8 @@ import net.fabricmc.tinyremapper.NonClassCopyMode
 import net.fabricmc.tinyremapper.OutputConsumerPath
 import net.fabricmc.tinyremapper.TinyRemapper
 import net.fabricmc.tinyremapper.TinyUtils
+import net.minecraftforge.fart.api.Renamer
+import net.minecraftforge.fart.api.Transformer
 import org.gradle.api.Project
 import java.io.*
 import java.util.regex.Pattern
@@ -19,8 +21,11 @@ class DeobfuscateTask : EvaluatedTask() {
     override val name: String = "deobfuscateTask"
 
     override fun onEvaluation(modProject: ModProject, project: Project) {
+        Renamer.builder().add(Transformer.recordFixerFactory()).build()
+            .run(File(TorchLoaderPlugin.downloadMinecraftTask.temporaryDir, "minecraft.jar"),
+                File(TorchLoaderPlugin.downloadMinecraftTask.temporaryDir, "minecraft-fix.jar"),)
         deobfuscate(
-            File(TorchLoaderPlugin.downloadMinecraftTask.temporaryDir, "minecraft.jar"),
+            File(TorchLoaderPlugin.downloadMinecraftTask.temporaryDir, "minecraft-fix.jar"),
             File(TorchLoaderPlugin.downloadMinecraftTask.temporaryDir, "minecraft-deobf.jar"),
             File(TorchLoaderPlugin.downloadMappingsTask.temporaryDir, "mappings.tiny")
         )

@@ -10,12 +10,18 @@ version = "1.0"
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven {
         url = uri("https://maven.fabricmc.net/")
+    }
+    maven {
+        name = "neoforgedReleases"
+        url = uri("https://maven.neoforged.net/releases")
     }
 }
 
 dependencies {
+    implementation("net.neoforged:AutoRenamingTool:1.0.7")
     implementation("org.vineflower:vineflower:1.9.2")
     implementation("net.fabricmc:tiny-remapper:0.8.7")
     implementation("net.fabricmc:mapping-io:0.4.2")
