@@ -46,7 +46,12 @@ class TorchLoaderPlugin : Plugin<Project> {
             project.repositories.add(getMavenRepository(project))
 
             if (ModProject.isModProjectInitialized() && ModProject.modProjectInstance.fieldsInitialized()) {
-                DownloadLibraries().execute(project)
+                project.tasks.create("runClient", RunClientTask::class.java)
+                try {
+                    DownloadLibraries().execute(project)
+                } catch (e: Exception) {
+                    logger.error("Failed to load libraries, please redownload")
+                }
                 if (temporaryFilesExist()) {
                     DeobfuscateTask().execute(project)
                     DecompileTask().execute(project)

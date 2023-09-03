@@ -12,6 +12,8 @@ import net.fabricmc.tinyremapper.OutputConsumerPath
 import net.fabricmc.tinyremapper.TinyRemapper
 import net.fabricmc.tinyremapper.TinyUtils
 import net.minecraftforge.fart.api.Renamer
+import net.minecraftforge.fart.api.SignatureStripperConfig
+import net.minecraftforge.fart.api.SourceFixerConfig
 import net.minecraftforge.fart.api.Transformer
 import org.gradle.api.Project
 import java.io.*
@@ -21,7 +23,9 @@ class DeobfuscateTask : EvaluatedTask() {
     override val name: String = "deobfuscateTask"
 
     override fun onEvaluation(modProject: ModProject, project: Project) {
-        Renamer.builder().add(Transformer.recordFixerFactory()).build()
+        Renamer.builder().add(Transformer.recordFixerFactory())
+            .add(Transformer.sourceFixerFactory(SourceFixerConfig.JAVA))
+            .add(Transformer.signatureStripperFactory(SignatureStripperConfig.ALL)).build()
             .run(File(TorchLoaderPlugin.downloadMinecraftTask.temporaryDir, "minecraft.jar"),
                 File(TorchLoaderPlugin.downloadMinecraftTask.temporaryDir, "minecraft-fix.jar"),)
         deobfuscate(
@@ -49,6 +53,7 @@ class DeobfuscateTask : EvaluatedTask() {
             )
         }
         val remapper = TinyRemapper.newRemapper().invalidLvNamePattern(Pattern.compile("\\$\\$\\d+"))
+            .renameInvalidLocals(true)
             .inferNameFromSameLvIndex(true)
             .withMappings(
                 TinyUtils.createTinyMappingProvider(

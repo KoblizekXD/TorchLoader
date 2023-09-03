@@ -4,8 +4,10 @@ import lol.koblizek.torch.plugin.ModProject
 import lol.koblizek.torch.plugin.TorchLoaderPlugin
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
+import org.gradle.api.plugins.JavaPluginExtension
 import org.jetbrains.java.decompiler.main.Fernflower
 import org.jetbrains.java.decompiler.main.decompiler.DirectoryResultSaver
+import org.jetbrains.java.decompiler.main.extern.IContextSource
 import org.jetbrains.java.decompiler.main.extern.IFernflowerLogger
 import org.jetbrains.java.decompiler.main.extern.IFernflowerPreferences
 import java.io.File
@@ -31,6 +33,9 @@ class DecompileTask : EvaluatedTask() {
                     Logger()
                 )
                 fernFlower.addSource(getDeobfuscatedJar())
+                project.configurations.getByName("compileClasspath").files.forEach {
+                    fernFlower.addLibrary(it)
+                }
                 fernFlower.decompileContext()
                 moveNonCodeFiles(project)
             } else {

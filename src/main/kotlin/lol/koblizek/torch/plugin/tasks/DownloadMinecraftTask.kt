@@ -24,9 +24,12 @@ abstract class DownloadMinecraftTask : DefaultTask() {
             .getAsJsonObject("client")
             .getAsJsonPrimitive("url").asString
         Download(clientUrl, "minecraft.jar", true, this)
+        val gameArgs = FileWriter(File(temporaryDir, "args.json"))
         val fileWrite = FileWriter(File(temporaryDir, "libraries.json"))
+        Gson().toJson(json.getAsJsonObject("arguments"), gameArgs)
         Gson().toJson(json.getAsJsonArray("libraries"),
             fileWrite)
+        gameArgs.close()
         fileWrite.close()
     }
 }
