@@ -65,7 +65,7 @@ class DecompileTask : EvaluatedTask() {
         val main = project.file("src/main/java/")
 
         main.listFiles()?.forEach {
-            if (!(it.name == "com" || it.name == "net"))
+            if (!(it.name == "com" || it.name == "net" || it.name.endsWith(".java")))
                 FileUtils.moveToDirectory(it, resources, true)
         }
     }
