@@ -16,6 +16,7 @@ class ModProject {
     lateinit var minecraft: String
     lateinit var mappings: String
     lateinit var minecraftDevelopment: MinecraftDevelopment
+    lateinit var customManifest: String
     var side: String = "any"
 
     /**
@@ -38,7 +39,8 @@ class ModProject {
      */
     private fun areMappingsInitialized(): Boolean = ::mappings.isInitialized
 
-    private fun useSide(): Boolean = side != "any"
+    fun useSide(): Boolean = side != "any"
+    fun useCustomManifest(): Boolean = ::customManifest.isInitialized
 
     fun getSideOrDefault(): String {
         if (useSide()) return side
