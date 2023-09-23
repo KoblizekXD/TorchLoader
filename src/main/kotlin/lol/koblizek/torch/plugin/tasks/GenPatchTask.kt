@@ -17,13 +17,14 @@ abstract class GenPatchTask : DefaultTask() {
             patchDir.mkdirs()
         }
         val diffOperation = DiffOperation.builder()
-            .aPath(project.file("origin/java/").toPath())
+            .aPath(project.file("origin/").toPath())
             .bPath(project.file("src/main/java/").toPath())
             .aPrefix(null)
             .bPrefix(null)
-            .singleDiff(true).filter { it.endsWith(".java") }
+            .filter { it.endsWith(".java") }
             .outputPath(patchDir.toPath())
             .build()
         diffOperation.doDiff()
+        println("Patch done.")
     }
 }
