@@ -34,6 +34,8 @@ class TorchLoaderPlugin : Plugin<Project> {
         downloadJsonTask = project.tasks.create("downloadJson", DownloadJsonTask::class.java)
         downloadMinecraftTask = project.tasks.create("downloadMinecraft", DownloadMinecraftTask::class.java)
         downloadMappingsTask = project.tasks.create("downloadMappings", DownloadMappingsTask::class.java)
+        project.tasks.create("genPatch", GenPatchTask::class.java)
+        project.tasks.create("applyPatch", ApplyPatchTask::class.java)
 
         project.tasks.withType(JavaCompile::class.java) {
             it.options.encoding = "UTF-8"

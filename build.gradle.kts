@@ -18,9 +18,12 @@ repositories {
         name = "neoforgedReleases"
         url = uri("https://maven.neoforged.net/releases")
     }
+    maven { url = uri("https://jitpack.io") }
+    maven { url = uri("https://nexus.velocitypowered.com/repository/maven-public/") }
 }
 
 dependencies {
+    implementation("com.github.MCPHackers:DiffPatch:cde1224")
     implementation("net.neoforged:AutoRenamingTool:1.0.7")
     implementation("org.vineflower:vineflower:1.9.2")
     implementation("net.fabricmc:tiny-remapper:0.8.7")
