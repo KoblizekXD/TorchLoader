@@ -5,4 +5,9 @@ class MinecraftDevelopment {
      * if project should be decompiled
      */
     var decompile: Boolean = false
+    lateinit var mappings: String
+
+    fun useCustomMappings(): Boolean {
+        return ::mappings.isInitialized
+    }
 }

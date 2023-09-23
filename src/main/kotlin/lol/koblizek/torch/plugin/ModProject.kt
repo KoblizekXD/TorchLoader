@@ -16,6 +16,8 @@ class ModProject {
     lateinit var minecraft: String
     lateinit var mappings: String
     lateinit var minecraftDevelopment: MinecraftDevelopment
+    lateinit var customManifest: String
+    var side: String = "any"
 
     /**
      * Specifies the development of game api,
@@ -36,5 +38,13 @@ class ModProject {
      * @return true if are mappings field inside `minecraft` block used
      */
     private fun areMappingsInitialized(): Boolean = ::mappings.isInitialized
+
+    fun useSide(): Boolean = side != "any"
+    fun useCustomManifest(): Boolean = ::customManifest.isInitialized
+
+    fun getSideOrDefault(): String {
+        if (useSide()) return side
+        else return "mappings/mappings.tiny"
+    }
     fun fieldsInitialized(): Boolean = isMinecraftInitialized() && areMappingsInitialized()
 }

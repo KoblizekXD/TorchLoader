@@ -2,6 +2,7 @@ package lol.koblizek.torch.plugin.tasks
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import lol.koblizek.torch.plugin.ModProject
 import lol.koblizek.torch.plugin.TorchLoaderPlugin
 import lol.koblizek.torch.plugin.util.Download
 import org.gradle.api.DefaultTask
@@ -21,7 +22,7 @@ abstract class DownloadMinecraftTask : DefaultTask() {
         val file = File(TorchLoaderPlugin.downloadJsonTask.temporaryDir, "minecraft-data.json")
         val json = Gson().fromJson(file.readText(), JsonObject::class.java)
         val clientUrl = json.getAsJsonObject("downloads")
-            .getAsJsonObject("client")
+            .getAsJsonObject(if (ModProject.modProjectInstance.useSide()) ModProject.modProjectInstance.side else "client")
             .getAsJsonPrimitive("url").asString
         Download(clientUrl, "minecraft.jar", true, this)
         val gameArgs = FileWriter(File(temporaryDir, "args.json"))

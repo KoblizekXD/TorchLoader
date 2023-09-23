@@ -38,6 +38,11 @@ class DecompileTask : EvaluatedTask() {
                 }
                 fernFlower.decompileContext()
                 moveNonCodeFiles(project)
+                val file = project.file("origin/")
+                val from = project.file("src/main/java/")
+                if (!file.exists()) file.mkdirs()
+                FileUtils.copyDirectory(from, file)
+
             } else {
                 logger.quiet("Minecraft resource are not missing, no need to redownload")
             }
@@ -65,7 +70,7 @@ class DecompileTask : EvaluatedTask() {
         val main = project.file("src/main/java/")
 
         main.listFiles()?.forEach {
-            if (!(it.name == "com" || it.name == "net"))
+            if (!(it.name == "com" || it.name == "net" || it.name.endsWith(".java")))
                 FileUtils.moveToDirectory(it, resources, true)
         }
     }

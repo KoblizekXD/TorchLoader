@@ -31,6 +31,14 @@ abstract class DownloadMappingsTask : DefaultTask() {
                 zipFile.getInputStream(zipFile.getEntry("mappings/mappings.tiny")),
                 file
             )
+        } else if (ModProject.modProjectInstance.minecraftDevelopment.useCustomMappings()) {
+            val mappingFile = Download(ModProject.modProjectInstance.minecraftDevelopment.mappings, "mappings-jar.jar").file
+            val zipFile = ZipFile(mappingFile)
+            val file = Download.getFile("mappings.tiny", true, this)
+            FileUtils.copyInputStreamToFile(
+                zipFile.getInputStream(zipFile.getEntry(ModProject.modProjectInstance.getSideOrDefault())),
+                file
+            )
         }
     }
 

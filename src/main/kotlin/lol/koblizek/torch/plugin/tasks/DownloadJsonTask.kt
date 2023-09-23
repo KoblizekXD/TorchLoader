@@ -21,7 +21,9 @@ abstract class DownloadJsonTask : DefaultTask() {
         val version = manifest.findByVersion(ModProject.modProjectInstance.minecraft)
             ?: throw RuntimeException("Specified Minecraft version(${ModProject.modProjectInstance.minecraft}) doesn't exist")
         println("Downloading Minecraft source JSON")
-        Download(version.url, "minecraft-data.json", true, this)
+        if (ModProject.modProjectInstance.useCustomManifest())
+            Download(ModProject.modProjectInstance.customManifest, "minecraft-data.json", true, this)
+        else Download(version.url, "minecraft-data.json", true, this)
         println("Finished source JSON download")
     }
 }
