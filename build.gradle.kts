@@ -25,7 +25,7 @@ repositories {
 dependencies {
     implementation("com.github.MCPHackers:DiffPatch:cde1224")
     implementation("net.neoforged:AutoRenamingTool:1.0.7")
-    implementation("org.vineflower:vineflower:1.9.2")
+    implementation("org.vineflower:vineflower:1.9.3")
     implementation("net.fabricmc:tiny-remapper:0.8.7")
     implementation("net.fabricmc:mapping-io:0.4.2")
     implementation("commons-io:commons-io:2.13.0")
